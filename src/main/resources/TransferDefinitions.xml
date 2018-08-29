@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transferDefinition xmlns="http://www.tzy777.com/TransferDefinitions"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.tzy777.com/TransferDefinitions TransferDefinitions.xsd">
+
+    <dataSources>
+        <dataSource id="targetDB" dbType="mysql">
+            <url>jdbc:mysql://192.168.194.104:3306/test2</url>
+            <username>root</username>
+            <password>843460950</password>
+            <driverClass>com.mysql.jdbc.Driver</driverClass>
+        </dataSource>
+        <dataSource id="srcDB" dbType="mysql">
+            <url>jdbc:mysql://192.168.194.104:3306/test1</url>
+            <username>root</username>
+            <password>843460950</password>
+            <driverClass>com.mysql.jdbc.Driver</driverClass>
+        </dataSource>
+    </dataSources>
+
+    <tables>
+        <table id="user" targetDataSourceRef="targetDB" table="user" beanClass="com.tzy777.entity.User">
+            <srcs>
+                <src srcDataSourceRef="srcDB"
+                     querySql="select a.id,a.name as username,a.age,b.intersted,b.memo from test1.src3User a left join test1.src4User b on a.id = b.id"
+                     keyColumn="id"/>
+            </srcs>
+            <changes>
+                <change columnName="age" targetType="java.lang.Integer" srcType="java.lang.String" handlerRef="StringToInteger"/>
+            </changes>
+        </table>
+    </tables>
+
+    <properties>
+        <property name="poolSize" value="2"></property>
+        <property name="pageSize" value="10000"></property>
+        <property name="commitSize" value="5000"></property>
+        <property name="fialRecordFilePath"  value="E:\IdeaProjects\DataTransfer\src\main\resources\logs" ></property>
+    </properties>
+
+    <typeHandlers>
+        <typeHandler handlerId="StringToInteger" handlerClass="com.xtonic.type.impl.StringToIntegerHandler"/>
+    </typeHandlers>
+</transferDefinition>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.tzy777.com/TransferDefinitions"
+           xmlns="http://www.tzy777.com/TransferDefinitions"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xsd:element name="transferDefinition" type="transferDefinitionType">
+    </xsd:element>
+
+    <xsd:complexType name="transferDefinitionType">
+        <xsd:sequence>
+            <xsd:element name="dataSources"  type="dataSources">
+            </xsd:element>
+            <xsd:element name="tables"       type="tables">
+            </xsd:element>
+            <xsd:element name="properties"   type="properties"   minOccurs="0">
+            </xsd:element>
+            <xsd:element name="typeHandlers" type="typeHandlers" minOccurs="0">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="dataSources">
+        <xsd:sequence>
+            <xsd:element name="dataSource" type="dataSourceType" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="dataSourceType">
+        <xsd:sequence>
+            <xsd:element name="url" type="xsd:string">
+            </xsd:element>
+            <xsd:element name="username" type="xsd:string">
+            </xsd:element>
+            <xsd:element name="password" type="xsd:string">
+            </xsd:element>
+            <xsd:element name="driverClass" type="xsd:string">
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id"     type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="dbType" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="tables">
+        <xsd:sequence>
+            <xsd:element name="table" type="tableType" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tableType">
+        <xsd:sequence>
+            <xsd:element name="srcs" type="srcs">
+            </xsd:element>
+            <xsd:element name="changes" type="changes" minOccurs="0">
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="targetDataSourceRef" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="table" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="beanClass" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="taskImplClass" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="srcs">
+        <xsd:sequence>
+            <xsd:element name="src" type="srcType" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="srcType">
+        <xsd:attribute name="srcDataSourceRef" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="querySql"  type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="keyColumn" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="isMainSrc" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="changes">
+        <xsd:sequence>
+            <xsd:element name="change" type="changeType" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="changeType">
+        <xsd:attribute name="columnName" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="targetType" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="srcType"    type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="handlerRef" type="xsd:string" use="required"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="properties">
+        <xsd:sequence>
+            <xsd:element name="property" type="propertyType" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="propertyType">
+        <xsd:attribute name="name" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="value" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="typeHandlers">
+        <xsd:sequence>
+            <xsd:element name="typeHandler" type="typeHandler" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="typeHandler">
+        <xsd:attribute name="handlerId" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="handlerClass" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>
